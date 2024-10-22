@@ -1,0 +1,29 @@
+.dialog {
+    border-radius: 8px;
+    background-color: #1e1e2e;
+    color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+    .dialog .window-header {
+        background-color: #333;
+        color: white;
+    }
+
+    .dialog .dialog-content {
+        padding: 15px;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .dialog button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .dialog button:hover {
+            background-color: #45a049;
+        }
