@@ -1,14 +1,14 @@
 {
-  "name": "zadars-helpful-macros",
+  "id": "zadars-helpful-macros",
   "title": "Zadar's Helpful Macros",
   "description": "A collection of helpful macros for Foundry VTT.",
   "version": "1.0.0",
   "author": "Zadar",
-  "manifest": "modules/zadars-helpful-macros/module.json",
-  "download": "https://example.com/zadars-helpful-macros.zip",
+  "manifest": "https://raw.githubusercontent.com/durhamc84/ZadarsHelpfulMacros/main/module.json",
+  "download": "https://github.com/durhamc84/ZadarsHelpfulMacros/archive/refs/heads/main.zip",
   "license": "LICENSE",
   "readme": "README.md",
-  "url": "https://example.com",
+  "url": "https://github.com/durhamc84/ZadarsHelpfulMacros",
   "compatibility": {
     "minimum": "11",
     "verified": "12",
@@ -20,6 +20,21 @@
   "media": {
     "thumb": "modules/zadars-helpful-macros/assets/main.png"
   },
-  "languages": [],
-  "systems": []
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "systems": [
+    {
+      "id": "dnd5e",
+      "type": "system",
+      "compatibility": {
+        "minimum": "3.3.1",
+        "verified": "4.0.0"
+      }
+    }
+  ]
 }
