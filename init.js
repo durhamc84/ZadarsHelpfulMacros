@@ -7,7 +7,7 @@ Hooks.once('init', async function () {
         label: "Configure Macros",
         hint: "Select which macros to show in the macro bar.",
         icon: "fas fa-cogs",
-        type: MacroSettings,  // Ensure MacroSettings is defined in settings.js
+        type: MacroSettings, // Make sure MacroSettings is defined in settings.js
         restricted: true
     });
 
@@ -46,20 +46,21 @@ Hooks.once('ready', async function () {
     ];
 
     // Register macros in the macro bar based on user settings
-    macros.forEach(async (macro, index) => {
+    macros.forEach((macro, index) => {
         if (macrosToShow[macro.name.toLowerCase()]) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
             if (!existingMacro) {
                 console.log(`Creating new macro: ${macro.name}`);
-                const createdMacro = await Macro.create({
+                game.macros.create({
                     name: macro.name,
                     type: 'script',
                     img: macro.img,
                     command: `\$.getScript('${macro.path}');`,
                     flags: { 'zadars-helpful-macros': { source: 'module' } }
+                }).then(createdMacro => {
+                    game.user.assignHotbarMacro(createdMacro, index + 1); // Place macro in slot
+                    console.log(`Assigning new macro ${macro.name} to hotbar slot ${index + 1}`);
                 });
-                game.user.assignHotbarMacro(createdMacro, index + 1); // Place macro in slot
-                console.log(`Assigning new macro ${macro.name} to hotbar slot ${index + 1}`);
             } else {
                 game.user.assignHotbarMacro(existingMacro, index + 1); // Assign existing macro
                 console.log(`Assigning existing macro ${macro.name} to hotbar slot ${index + 1}`);
