@@ -29,12 +29,12 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="assests\main.png" />
-    <Content Include="assests\attacks.png" />
-    <Content Include="assests\spells.png" />
-    <Content Include="assests\saves.png" />
-    <Content Include="assests\abilities.png" />
-    <Content Include="assests\skills.png" />
+    <Content Include="assets\main.png" />
+    <Content Include="assets\attacks.png" />
+    <Content Include="assets\spells.png" />
+    <Content Include="assets\saves.png" />
+    <Content Include="assets\abilities.png" />
+    <Content Include="assets\skills.png" />
     <Content Include="css\styles.css" />
     <Content Include="init.js" />
     <Content Include="macros\AbilityChecks.js" />
@@ -50,7 +50,7 @@
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="macros\" />
-    <Folder Include="assests\" />
+    <Folder Include="assets\" />
     <Folder Include="templates\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
