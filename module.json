@@ -20,15 +20,9 @@
   "media": {
     "thumb": "modules/zadars-helpful-macros/assets/main.png"
   },
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
-  ],
+  "languages": [],
   "systems": [
-    {
+    {0
       "id": "dnd5e",
       "type": "system",
       "compatibility": {
