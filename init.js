@@ -1,7 +1,7 @@
 Hooks.once('init', async function () {
     console.log('Zadar\'s Helpful Macros | Initializing');
 
-    // Register the macro configuration setting menu
+    // Register the settings menu for macro configuration
     game.settings.registerMenu("zadars-helpful-macros", "macroSettings", {
         name: "Macro Settings",
         label: "Configure Macros",
@@ -11,7 +11,7 @@ Hooks.once('init', async function () {
         restricted: true
     });
 
-    // Register the actual 'macrosToShow' setting
+    // Register the macro settings (what macros to show)
     game.settings.register('zadars-helpful-macros', 'macrosToShow', {
         name: 'Macros to Show',
         hint: 'Select which macros you want to display in the macro bar.',
@@ -30,14 +30,16 @@ Hooks.once('init', async function () {
         }
     });
 
-    console.log('Zadar\'s Helpful Macros | Initialization Complete');
+    console.log('Zadar\'s Helpful Macros | Settings Registered');
 });
 
-// Ensure the 'ready' hook only tries to access the settings after they have been registered
-Hooks.on('ready', function () {
-    // Now the 'macrosToShow' setting should be available
+Hooks.once('ready', function () {
+    console.log('Zadar\'s Helpful Macros | Ready Hook Triggered');
+
+    // Retrieve user settings for which macros to show
     const macrosToShow = game.settings.get('zadars-helpful-macros', 'macrosToShow');
 
+    // Define the macros and their respective images/commands
     const macros = [
         { name: 'Attacks', path: 'modules/zadars-helpful-macros/macros/Attacks.js', img: 'modules/zadars-helpful-macros/assets/attacks.png' },
         { name: 'Spells', path: 'modules/zadars-helpful-macros/macros/Spells.js', img: 'modules/zadars-helpful-macros/assets/spells.png' },
@@ -46,7 +48,7 @@ Hooks.on('ready', function () {
         { name: 'Abilities', path: 'modules/zadars-helpful-macros/macros/AbilityChecks.js', img: 'modules/zadars-helpful-macros/assets/abilities.png' }
     ];
 
-    // Register macros in the macro bar based on user settings
+    // Iterate over the macros and add them to the macro bar based on user settings
     macros.forEach(macro => {
         if (macrosToShow[macro.name.toLowerCase()]) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
@@ -56,8 +58,12 @@ Hooks.on('ready', function () {
                     type: 'script',
                     img: macro.img,
                     command: `\$.getScript('${macro.path}');`
+                }).then(createdMacro => {
+                    game.user.assignHotbarMacro(createdMacro, 1);  // Assign to hotbar slot 1, you can modify this slot number
                 });
             }
         }
     });
+
+    console.log('Zadar\'s Helpful Macros | Macros Added to Bar');
 });
