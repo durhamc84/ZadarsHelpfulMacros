@@ -2,20 +2,20 @@
   "id": "zadars-helpful-macros",
   "title": "Zadar's Helpful Macros",
   "description": "A collection of helpful macros for Foundry VTT.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Zadar",
-  "manifest": "https://github.com/durhamc84/ZadarsHelpfulMacros/releases/download/1.0.3/module.json",
-  "download": "https://github.com/durhamc84/ZadarsHelpfulMacros/releases/download/1.0.3/module.zip",
+  "manifest": "https://github.com/durhamc84/ZadarsHelpfulMacros/releases/download/1.0.4/module.json",
+  "download": "https://github.com/durhamc84/ZadarsHelpfulMacros/releases/download/1.0.4/module.zip",
   "license": "LICENSE",
   "readme": "README.md",
   "url": "https://github.com/durhamc84/ZadarsHelpfulMacros",
   "compatibility": {
-    "minimum": "11",
+    "minimum": "12",
     "verified": "12",
     "maximum": "12"
   },
   "styles": [ "css/styles.css" ],
-  "scripts": [ "init.js" ],
+  "esmodules": [ "init.js" ],
   "packs": [],
   "media": {
     "thumb": "modules/zadars-helpful-macros/assets/main.png"
