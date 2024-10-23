@@ -40,5 +40,6 @@ functiion savesMacro() {
         },
         default: "select"
     }).render(true);
-    console.log("Running Attack Macro");
+    console.log('Saves macro loaded');
+
 }

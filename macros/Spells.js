@@ -140,5 +140,6 @@ function spellsMacro() {
             });
         }
     }).render(true);
-    console.log("Running Attack Macro");
+    console.log('Spells macro loaded');
+;
 }

@@ -40,5 +40,6 @@ function skillsMacro() {
         },
         default: "select"
     }).render(true);
-    console.log("Running Attack Macro");
+    console.log('Skills macro loaded');
+;
 }

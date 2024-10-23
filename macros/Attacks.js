@@ -91,5 +91,6 @@ function attackMacro() {
         },
         default: "select"
     }).render(true); // Ensure the dialog is rendered
-    console.log("Running Attack Macro");
+    console.log('Attacks macro loaded');
+
 }
