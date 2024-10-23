@@ -1,9 +1,9 @@
 class MacroSettings extends FormApplication {
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             title: "Zadar's Helpful Macros - Configuration",
             id: "zadar-macro-settings",
-            template: "modules/zadars-helpful-macros/templates/macro-settings.html", // Referencing external template
+            template: "modules/zadars-helpful-macros/templates/macro-settings.html", // Make sure this template exists in the correct folder
             width: 400,
             closeOnSubmit: true
         });
@@ -28,8 +28,19 @@ class MacroSettings extends FormApplication {
     }
 }
 
-// Register settings
+// Register the necessary settings
 Hooks.once('init', () => {
+    // Register menu settings
+    game.settings.registerMenu("zadars-helpful-macros", "macroSettings", {
+        name: "Macro Settings",
+        label: "Configure Macros",
+        hint: "Select which macros to show in the macro bar.",
+        icon: "fas fa-cogs",
+        type: MacroSettings,
+        restricted: true
+    });
+
+    // Register individual macro visibility settings
     game.settings.register('zadars-helpful-macros', 'attacks', {
         name: 'Show Attacks Macro',
         hint: 'Show the Attacks macro in the macro bar.',
