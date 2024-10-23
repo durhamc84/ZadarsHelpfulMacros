@@ -3,7 +3,7 @@ class MacroSettings extends FormApplication {
         return mergeObject(super.defaultOptions, {
             title: "Zadar's Helpful Macros - Configuration",
             id: "zadar-macro-settings",
-            template: "templates/macro-settings.html",
+            template: "modules/zadars-helpful-macros/templates/macro-settings.html", // Referencing external template
             width: 400,
             closeOnSubmit: true
         });

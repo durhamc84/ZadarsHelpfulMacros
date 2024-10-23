@@ -45,11 +45,13 @@
     <Content Include="module.json" />
     <Content Include="README.md" />
     <Content Include="settings.js" />
+    <Content Include="templates\macro-settings.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="macros\" />
     <Folder Include="assests\" />
+    <Folder Include="templates\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

@@ -59,7 +59,9 @@ Hooks.once('ready', async function () {
         // If the user has chosen to show the macro
         if (setting) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
+
             if (!existingMacro) {
+                console.log(`Creating new macro: ${macro.name}`);
                 // Create the macro if it doesn't exist
                 const createdMacro = await Macro.create({
                     name: macro.name,
@@ -68,9 +70,17 @@ Hooks.once('ready', async function () {
                     command: `\$.getScript('${macro.path}');`,
                     flags: { "zadars-helpful-macros": { source: "module" } }
                 });
-                game.user.assignHotbarMacro(createdMacro, i + 1); // Assign macro to the hotbar (1-indexed slots)
+
+                if (createdMacro) {
+                    console.log(`Assigning new macro ${createdMacro.name} to hotbar slot ${i + 1}`);
+                    game.user.assignHotbarMacro(createdMacro, i + 1); // Assign macro to the hotbar (1-indexed slots)
+                } else {
+                    console.error(`Failed to create macro: ${macro.name}`);
+                }
+
             } else {
                 // If macro exists, assign it to the hotbar
+                console.log(`Assigning existing macro ${existingMacro.name} to hotbar slot ${i + 1}`);
                 game.user.assignHotbarMacro(existingMacro, i + 1);
             }
         }
