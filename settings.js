@@ -3,7 +3,7 @@ class MacroSettings extends FormApplication {
         return foundry.utils.mergeObject(super.defaultOptions, {
             title: "Zadar's Helpful Macros - Configuration",
             id: "zadar-macro-settings",
-            template: "modules/zadars-helpful-macros/templates/macro-settings.html", // Make sure this template exists in the correct folder
+            template: "modules/zadars-helpful-macros/templates/macro-settings.html",
             width: 400,
             closeOnSubmit: true
         });
@@ -28,9 +28,7 @@ class MacroSettings extends FormApplication {
     }
 }
 
-// Register the necessary settings
 Hooks.once('init', () => {
-    // Register menu settings
     game.settings.registerMenu("zadars-helpful-macros", "macroSettings", {
         name: "Macro Settings",
         label: "Configure Macros",
@@ -40,7 +38,6 @@ Hooks.once('init', () => {
         restricted: true
     });
 
-    // Register individual macro visibility settings
     game.settings.register('zadars-helpful-macros', 'attacks', {
         name: 'Show Attacks Macro',
         hint: 'Show the Attacks macro in the macro bar.',

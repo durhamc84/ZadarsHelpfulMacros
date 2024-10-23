@@ -1,7 +1,7 @@
 Hooks.once('init', async function () {
     console.log("Zadar's Helpful Macros | Initializing");
 
-    // Register settings for macro display in the macro bar
+    // Initialize the settings
     game.settings.registerMenu("zadars-helpful-macros", "macroSettings", {
         name: "Macro Settings",
         label: "Configure Macros",
@@ -11,31 +11,20 @@ Hooks.once('init', async function () {
         restricted: true
     });
 
-    game.settings.register('zadars-helpful-macros', 'macrosToShow', {
-        name: 'Macros to Show',
-        hint: 'Select which macros you want to display in the macro bar.',
-        scope: 'world',
-        config: false,     // Hidden from the normal settings menu since it's controlled by the custom menu
-        type: Object,
-        default: {
-            attacks: true,
-            spells: true,
-            saves: true,
-            skills: true,
-            abilities: true
-        },
-        onChange: value => {
-            console.log("Zadar's Helpful Macros | Macros changed:", value);
-        }
-    });
-
     console.log("Zadar's Helpful Macros | Initialization Complete");
 });
 
 Hooks.once('ready', async function () {
     console.log("Zadar's Helpful Macros | Ready Hook Triggered");
 
-    const macrosToShow = game.settings.get('zadars-helpful-macros', 'macrosToShow');
+    // Get individual settings for macro visibility
+    const macrosToShow = {
+        attacks: game.settings.get('zadars-helpful-macros', 'attacks'),
+        spells: game.settings.get('zadars-helpful-macros', 'spells'),
+        saves: game.settings.get('zadars-helpful-macros', 'saves'),
+        skills: game.settings.get('zadars-helpful-macros', 'skills'),
+        abilities: game.settings.get('zadars-helpful-macros', 'abilities')
+    };
 
     const macros = [
         { name: 'Attacks', path: 'modules/zadars-helpful-macros/macros/Attacks.js', img: 'modules/zadars-helpful-macros/assets/attacks.png' },
@@ -45,7 +34,7 @@ Hooks.once('ready', async function () {
         { name: 'Abilities', path: 'modules/zadars-helpful-macros/macros/AbilityChecks.js', img: 'modules/zadars-helpful-macros/assets/abilities.png' }
     ];
 
-    // Register macros in the macro bar based on user settings
+    // Assign macros to the hotbar based on user settings
     macros.forEach((macro, index) => {
         if (macrosToShow[macro.name.toLowerCase()]) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
