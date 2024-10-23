@@ -17,7 +17,7 @@
   "styles": [ "css/styles.css" ],
   "esmodules": [
     "init.js",
-    "settings.js" // Add settings.js here
+    "settings.js" 
   ],
   "packs": [],
   "media": {
