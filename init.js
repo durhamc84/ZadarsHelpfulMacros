@@ -33,15 +33,18 @@ Hooks.once('ready', async function () {
         if (macrosToShow[macro.name.toLowerCase()]) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
 
-            // Enhanced logging to track macro creation/assignment.
             if (!existingMacro) {
                 console.log(`Zadar's Helpful Macros | Creating new macro: ${macro.name}`);
+
+                // Resolve the correct path dynamically using `window.location.origin`
+                const modulePath = `${window.location.origin}/${macro.path}`;
 
                 await Macro.create({
                     name: macro.name,
                     type: 'script',
                     img: macro.img,
-                    command: `import('${macro.path}').then(module => module.executeMacro());`,  // Load the module dynamically
+                    // Use import() with the correct module path
+                    command: `import('${modulePath}').then(module => module.executeMacro()).catch(err => console.error(err));`,
                     flags: { 'zadars-helpful-macros': { source: 'module' } }
                 }).then(createdMacro => {
                     game.user.assignHotbarMacro(createdMacro, slot);
