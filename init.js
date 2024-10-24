@@ -1,17 +1,22 @@
 Hooks.once('init', async function () {
     console.log("Zadar's Helpful Macros | Initializing");
 
-    // Register settings for macro display in the macro bar
+    // Log setting registration steps
     console.log("Zadar's Helpful Macros | Registering settings menu");
-
-    // This now relies on individual settings rather than macrosToShow
     console.log("Zadar's Helpful Macros | Initialization Complete");
 });
 
 Hooks.once('ready', async function () {
     console.log("Zadar's Helpful Macros | Ready Hook Triggered");
 
-    const macrosToShow = game.settings.get('zadars-helpful-macros', 'macrosToShow');
+    // Use individual settings for each macro
+    const macrosToShow = {
+        attacks: game.settings.get('zadars-helpful-macros', 'attacks'),
+        spells: game.settings.get('zadars-helpful-macros', 'spells'),
+        saves: game.settings.get('zadars-helpful-macros', 'saves'),
+        skills: game.settings.get('zadars-helpful-macros', 'skills'),
+        abilities: game.settings.get('zadars-helpful-macros', 'abilities')
+    };
 
     const macros = [
         { name: 'Attacks', path: 'modules/zadars-helpful-macros/macros/Attacks.js', img: 'modules/zadars-helpful-macros/assets/attacks.png' },
@@ -21,7 +26,7 @@ Hooks.once('ready', async function () {
         { name: 'Abilities', path: 'modules/zadars-helpful-macros/macros/AbilityChecks.js', img: 'modules/zadars-helpful-macros/assets/abilities.png' }
     ];
 
-    // Register macros in the macro bar based on user settings
+    // Register macros in the macro bar based on individual settings
     macros.forEach(async (macro, index) => {
         if (macrosToShow[macro.name.toLowerCase()]) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
@@ -45,4 +50,3 @@ Hooks.once('ready', async function () {
 
     console.log("Zadar's Helpful Macros | Macros assigned to hotbar");
 });
-
