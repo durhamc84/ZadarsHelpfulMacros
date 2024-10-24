@@ -27,27 +27,32 @@ Hooks.once('ready', async function () {
         { name: 'Abilities', path: 'modules/zadars-helpful-macros/macros/AbilityChecks.js', img: 'modules/zadars-helpful-macros/assets/abilities.png' }
     ];
 
-    macros.forEach((macro, index) => {
+    let slot = 1;
+
+    for (const macro of macros) {
         if (macrosToShow[macro.name.toLowerCase()]) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
+
+            // Enhanced logging to track macro creation/assignment.
             if (!existingMacro) {
                 console.log(`Zadar's Helpful Macros | Creating new macro: ${macro.name}`);
-                Macro.create({
+                await Macro.create({
                     name: macro.name,
                     type: 'script',
                     img: macro.img,
                     command: `\$.getScript('${macro.path}');`,
                     flags: { 'zadars-helpful-macros': { source: 'module' } }
                 }).then(createdMacro => {
-                    game.user.assignHotbarMacro(createdMacro, index + 1); // Assign macro to the hotbar
-                    console.log(`Zadar's Helpful Macros | Assigned new macro ${macro.name} to hotbar slot ${index + 1}`);
-                });
+                    game.user.assignHotbarMacro(createdMacro, slot);
+                    console.log(`Zadar's Helpful Macros | Assigned new macro ${macro.name} to hotbar slot ${slot}`);
+                }).catch(error => console.error(`Zadar's Helpful Macros | Error creating macro ${macro.name}:`, error));
             } else {
-                game.user.assignHotbarMacro(existingMacro, index + 1); // Assign existing macro
-                console.log(`Zadar's Helpful Macros | Assigned existing macro ${macro.name} to hotbar slot ${index + 1}`);
+                game.user.assignHotbarMacro(existingMacro, slot);
+                console.log(`Zadar's Helpful Macros | Assigned existing macro ${macro.name} to hotbar slot ${slot}`);
             }
+            slot++;
         }
-    });
+    }
 
     console.log("Zadar's Helpful Macros | Macros assigned to hotbar");
 });
