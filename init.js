@@ -11,7 +11,8 @@ Hooks.once('init', async function () {
 Hooks.once('ready', async function () {
     console.log("Zadar's Helpful Macros | Ready Hook Triggered");
 
-    // Define all available macros
+    const macrosToShow = game.settings.get('zadars-helpful-macros', 'macrosToShow');
+
     const macros = [
         { name: 'Attacks', path: 'modules/zadars-helpful-macros/macros/Attacks.js', img: 'modules/zadars-helpful-macros/assets/attacks.png' },
         { name: 'Spells', path: 'modules/zadars-helpful-macros/macros/Spells.js', img: 'modules/zadars-helpful-macros/assets/spells.png' },
@@ -20,31 +21,28 @@ Hooks.once('ready', async function () {
         { name: 'Abilities', path: 'modules/zadars-helpful-macros/macros/AbilityChecks.js', img: 'modules/zadars-helpful-macros/assets/abilities.png' }
     ];
 
-    // Check each individual setting instead of a single macrosToShow setting
-    macros.forEach((macro, index) => {
-        let showMacro = game.settings.get('zadars-helpful-macros', macro.name.toLowerCase());
-        if (showMacro) {
+    // Register macros in the macro bar based on user settings
+    macros.forEach(async (macro, index) => {
+        if (macrosToShow[macro.name.toLowerCase()]) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
             if (!existingMacro) {
-                console.log(`Zadar's Helpful Macros | Creating new macro: ${macro.name}`);
-                game.macros.create({
+                console.log(`Creating new macro: ${macro.name}`);
+                const createdMacro = await Macro.createDocument({
                     name: macro.name,
                     type: 'script',
                     img: macro.img,
                     command: `\$.getScript('${macro.path}');`,
                     flags: { 'zadars-helpful-macros': { source: 'module' } }
-                }).then(createdMacro => {
-                    game.user.assignHotbarMacro(createdMacro, index + 1); // Place macro in slot
-                    console.log(`Zadar's Helpful Macros | Assigned new macro ${macro.name} to hotbar slot ${index + 1}`);
-                }).catch(err => {
-                    console.error(`Zadar's Helpful Macros | Error creating macro ${macro.name}:`, err);
                 });
+                game.user.assignHotbarMacro(createdMacro, index + 1); // Place macro in slot
+                console.log(`Assigning new macro ${macro.name} to hotbar slot ${index + 1}`);
             } else {
                 game.user.assignHotbarMacro(existingMacro, index + 1); // Assign existing macro
-                console.log(`Zadar's Helpful Macros | Assigned existing macro ${macro.name} to hotbar slot ${index + 1}`);
+                console.log(`Assigning existing macro ${macro.name} to hotbar slot ${index + 1}`);
             }
         }
     });
 
     console.log("Zadar's Helpful Macros | Macros assigned to hotbar");
 });
+
