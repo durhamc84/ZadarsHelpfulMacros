@@ -3,42 +3,13 @@ Hooks.once('init', async function () {
 
     // Register settings for macro display in the macro bar
     console.log("Zadar's Helpful Macros | Registering settings menu");
-    game.settings.registerMenu("zadars-helpful-macros", "macroSettings", {
-        name: "Macro Settings",
-        label: "Configure Macros",
-        hint: "Select which macros to show in the macro bar.",
-        icon: "fas fa-cogs",
-        type: MacroSettings, // Defined in settings.js
-        restricted: true
-    });
 
-    game.settings.register('zadars-helpful-macros', 'macrosToShow', {
-        name: 'Macros to Show',
-        hint: 'Select which macros you want to display in the macro bar.',
-        scope: 'world',
-        config: false,     // Hidden from the normal settings menu since it's controlled by the custom menu
-        type: Object,
-        default: {
-            attacks: true,
-            spells: true,
-            saves: true,
-            skills: true,
-            abilities: true
-        },
-        onChange: value => {
-            console.log("Zadar's Helpful Macros | Macros changed:", value);
-        }
-    });
-
+    // This now relies on individual settings rather than macrosToShow
     console.log("Zadar's Helpful Macros | Initialization Complete");
 });
 
 Hooks.once('ready', async function () {
     console.log("Zadar's Helpful Macros | Ready Hook Triggered");
-
-    // Get macros to show from settings
-    const macrosToShow = game.settings.get('zadars-helpful-macros', 'macrosToShow');
-    console.log("Zadar's Helpful Macros | Macros to Show:", macrosToShow);
 
     // Define all available macros
     const macros = [
@@ -49,9 +20,10 @@ Hooks.once('ready', async function () {
         { name: 'Abilities', path: 'modules/zadars-helpful-macros/macros/AbilityChecks.js', img: 'modules/zadars-helpful-macros/assets/abilities.png' }
     ];
 
-    // Register macros in the macro bar based on user settings
+    // Check each individual setting instead of a single macrosToShow setting
     macros.forEach((macro, index) => {
-        if (macrosToShow[macro.name.toLowerCase()]) {
+        let showMacro = game.settings.get('zadars-helpful-macros', macro.name.toLowerCase());
+        if (showMacro) {
             let existingMacro = game.macros.find(m => m.name === macro.name);
             if (!existingMacro) {
                 console.log(`Zadar's Helpful Macros | Creating new macro: ${macro.name}`);

@@ -32,6 +32,7 @@ class MacroSettings extends FormApplication {
 Hooks.once('init', () => {
     console.log("Zadar's Helpful Macros | Registering individual settings for macros");
 
+    // Register each macro individually
     game.settings.register('zadars-helpful-macros', 'attacks', {
         name: 'Show Attacks Macro',
         hint: 'Show the Attacks macro in the macro bar.',
