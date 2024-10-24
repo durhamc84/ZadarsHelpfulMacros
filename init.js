@@ -36,11 +36,12 @@ Hooks.once('ready', async function () {
             // Enhanced logging to track macro creation/assignment.
             if (!existingMacro) {
                 console.log(`Zadar's Helpful Macros | Creating new macro: ${macro.name}`);
+
                 await Macro.create({
                     name: macro.name,
                     type: 'script',
                     img: macro.img,
-                    command: `\$.getScript('${macro.path}');`,
+                    command: `import('${macro.path}').then(module => module.executeMacro());`,  // Load the module dynamically
                     flags: { 'zadars-helpful-macros': { source: 'module' } }
                 }).then(createdMacro => {
                     game.user.assignHotbarMacro(createdMacro, slot);

@@ -1,4 +1,4 @@
-function attackMacro() {
+export async function executeMacro() {
     // Prioritize selected token's actor, fallback to user's assigned character, otherwise show a warning
     let token = canvas.tokens.controlled[0] || canvas.tokens.placeables.find(t => t.actor?.id === game.user.character?.id);
     if (!token) return ui.notifications.warn("You must select a token or have an assigned character!");

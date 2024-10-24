@@ -1,4 +1,4 @@
-function spellsMacro() {
+export async function executeMacro() {
     // Ensure a token is selected, fallback to user's assigned character if none is selected
     let token = canvas.tokens.controlled[0] || canvas.tokens.placeables.find(t => t.actor?.id === game.user.character?.id);
     if (!token) return ui.notifications.warn("You must select a token or have an assigned character!");
