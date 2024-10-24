@@ -1,9 +1,45 @@
+// Register settings for configuring which macros are shown
+Hooks.once('init', async function () {
+    console.log("Zadar's Helpful Macros | Registering individual settings for macros");
+
+    // Register the settings menu
+    game.settings.registerMenu("zadars-helpful-macros", "macroSettings", {
+        name: "Macro Settings",
+        label: "Configure Macros",
+        hint: "Select which macros to show in the macro bar.",
+        icon: "fas fa-cogs",
+        type: MacroSettings,
+        restricted: true
+    });
+
+    // Register individual macro visibility settings
+    game.settings.register('zadars-helpful-macros', 'macrosToShow', {
+        name: 'Macros to Show',
+        hint: 'Select which macros you want to display in the macro bar.',
+        scope: 'world',
+        config: false, // Hidden from the normal settings menu
+        type: Object,
+        default: {
+            attacks: true,
+            spells: true,
+            saves: true,
+            skills: true,
+            abilities: true
+        },
+        onChange: value => {
+            console.log("Zadar's Helpful Macros | Macros visibility changed:", value);
+        }
+    });
+
+    console.log("Zadar's Helpful Macros | Registered settings");
+});
+
 class MacroSettings extends FormApplication {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             title: "Zadar's Helpful Macros - Configuration",
             id: "zadar-macro-settings",
-            template: "modules/zadars-helpful-macros/templates/macro-settings.html", // Ensure this template exists
+            template: "modules/zadars-helpful-macros/templates/macro-settings.html", // Ensure this template exists in the correct folder
             width: 400,
             closeOnSubmit: true
         });
@@ -11,70 +47,12 @@ class MacroSettings extends FormApplication {
 
     // Data structure for form
     getData() {
-        return {
-            attacks: game.settings.get('zadars-helpful-macros', 'attacks'),
-            spells: game.settings.get('zadars-helpful-macros', 'spells'),
-            saves: game.settings.get('zadars-helpful-macros', 'saves'),
-            skills: game.settings.get('zadars-helpful-macros', 'skills'),
-            abilities: game.settings.get('zadars-helpful-macros', 'abilities')
-        };
+        return game.settings.get('zadars-helpful-macros', 'macrosToShow');
     }
 
     // Handle form submission
     async _updateObject(event, formData) {
-        for (let [key, value] of Object.entries(formData)) {
-            await game.settings.set('zadars-helpful-macros', key, value);
-        }
+        await game.settings.set('zadars-helpful-macros', 'macrosToShow', formData);
+        console.log("Zadar's Helpful Macros | Settings updated:", formData);
     }
 }
-
-// Register the necessary settings
-Hooks.once('init', () => {
-    console.log("Zadar's Helpful Macros | Registering individual settings for macros");
-
-    // Register each macro individually
-    game.settings.register('zadars-helpful-macros', 'attacks', {
-        name: 'Show Attacks Macro',
-        hint: 'Show the Attacks macro in the macro bar.',
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: true
-    });
-
-    game.settings.register('zadars-helpful-macros', 'spells', {
-        name: 'Show Spells Macro',
-        hint: 'Show the Spells macro in the macro bar.',
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: true
-    });
-
-    game.settings.register('zadars-helpful-macros', 'saves', {
-        name: 'Show Saving Throws Macro',
-        hint: 'Show the Saving Throws macro in the macro bar.',
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: true
-    });
-
-    game.settings.register('zadars-helpful-macros', 'skills', {
-        name: 'Show Skills Macro',
-        hint: 'Show the Skills macro in the macro bar.',
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: true
-    });
-
-    game.settings.register('zadars-helpful-macros', 'abilities', {
-        name: 'Show Abilities Macro',
-        hint: 'Show the Abilities macro in the macro bar.',
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: true
-    });
-});
