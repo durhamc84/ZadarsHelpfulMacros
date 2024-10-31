@@ -43,20 +43,24 @@ Hooks.once('ready', async function () {
                     name: macro.name,
                     type: 'script',
                     img: macro.img,
-                    // Use import() with the correct module path
                     command: `import('${modulePath}').then(module => module.executeMacro()).catch(err => console.error(err));`,
                     flags: { 'zadars-helpful-macros': { source: 'module' } }
                 }).then(createdMacro => {
+                    // Set permissions so players can execute the macro
+                    createdMacro.update({ "ownership.default": CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER });
                     game.user.assignHotbarMacro(createdMacro, slot);
                     console.log(`Zadar's Helpful Macros | Assigned new macro ${macro.name} to hotbar slot ${slot}`);
                 }).catch(error => console.error(`Zadar's Helpful Macros | Error creating macro ${macro.name}:`, error));
             } else {
+                // If macro exists, update permissions for players and assign to hotbar
+                existingMacro.update({ "ownership.default": CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER });
                 game.user.assignHotbarMacro(existingMacro, slot);
                 console.log(`Zadar's Helpful Macros | Assigned existing macro ${macro.name} to hotbar slot ${slot}`);
             }
             slot++;
         }
     }
+
 
     console.log("Zadar's Helpful Macros | Macros assigned to hotbar");
 });
